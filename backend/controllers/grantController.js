@@ -108,7 +108,7 @@ exports.updateGrant = async (req, res) => {
       grant: sanitizeGrant(grant) 
     });
   } catch (err) {
-    console.error('❌ Update grant error:', err);
+    console.error(' Update grant error:', err);
     res.status(500).json({ 
       success: false, 
       error: err.message 
@@ -131,7 +131,7 @@ exports.deleteGrant = async (req, res) => {
       message: "Grant deleted successfully" 
     });
   } catch (err) {
-    console.error('❌ Delete grant error:', err);
+    console.error(' Delete grant error:', err);
     res.status(500).json({ 
       success: false, 
       error: err.message 
@@ -244,4 +244,43 @@ exports.updateGrantFromWebhook = async (req, res) => {
       error: err.message 
     });
   }
+};
+
+// Save grant with AI response data
+const saveGrantWithAIResponse = async (grant, response) => {
+  const updates = {
+    status: "completed"
+  };
+
+  // Handle PDF data
+  if (response.isPDF && response.pdfData) {
+    updates.pdfData = response.pdfData;
+  }
+
+  // Handle JSON data fields
+  const jsonFields = [
+    'proposal', 'htmlProposal', 'score', 'grade', 'fundability',
+    'donor_matches', 'score_breakdown', 'recommendations',
+    'top_selling_points', 'executive_summary', 'donor_pitch',
+    'elevator_pitch', 'funding_recommendation', 'sdgs',
+    'beneficiaries', 'risk_level'
+  ];
+
+  jsonFields.forEach(field => {
+    if (response[field] !== undefined) {
+      updates[field] = response[field];
+    }
+  });
+
+  // Apply updates
+  Object.assign(grant, updates);
+  await grant.save();
+  return grant;
+};
+
+// Sanitize grant - remove sensitive/binary data for JSON response
+const sanitizeGrant = (grant) => {
+  const grantObj = grant.toObject ? grant.toObject() : { ...grant };
+  delete grantObj.pdfData; 
+  return grantObj;
 };
