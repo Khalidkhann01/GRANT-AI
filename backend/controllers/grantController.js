@@ -65,3 +65,26 @@ exports.getGrants = async (req, res) => {
     });
   }
 };
+
+// GET single grant
+exports.getGrantById = async (req, res) => {
+  try {
+    const grant = await Grant.findById(req.params.id);
+    if (!grant) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Grant not found" 
+      });
+    }
+    res.json({ 
+      success: true, 
+      grant: sanitizeGrant(grant) 
+    });
+  } catch (err) {
+    console.error('❌ Get grant error:', err);
+    res.status(500).json({ 
+      success: false, 
+      error: err.message 
+    });
+  }
+};
