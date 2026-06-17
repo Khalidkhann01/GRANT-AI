@@ -1,0 +1,1155 @@
+/* Container */
+.container {
+  min-height: 100vh;
+  background: #f1f5f9;
+  padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Header */
+.header {
+  background: white;
+  border-radius: 16px;
+  padding: 16px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logoIcon {
+  width: 44px;
+  height: 44px;
+  background: #fef3c7;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1e3a5f;
+  letter-spacing: -0.5px;
+}
+
+.logoSub {
+  font-size: 11px;
+  color: #6b7280;
+  display: block;
+  margin-top: -2px;
+  font-weight: 500;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.userBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #f1f5f9;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+.logoutBtn {
+  padding: 8px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-size: 13px;
+  color: #6b7280;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.logoutBtn:hover {
+  background: #f1f5f9;
+  border-color: #d1d5db;
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.statCard {
+  background: white;
+  border-radius: 12px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.statIconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e3a5f;
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Actions Bar */
+.actionsBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: white;
+  padding: 14px 20px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.actionsLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.actionsRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.searchWrapper {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 9px 36px 9px 38px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+  background: #fafafa;
+}
+
+.searchInput:focus {
+  border-color: #1e3a5f;
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+  background: white;
+}
+
+.clearSearch {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  padding: 4px;
+}
+
+.clearSearch:hover {
+  color: #6b7280;
+}
+
+.bulkDeleteBtn {
+  padding: 9px 16px;
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.bulkDeleteBtn:hover {
+  background: #fee2e2;
+  transform: translateY(-1px);
+}
+
+.createBtn {
+  padding: 9px 20px;
+  background: linear-gradient(135deg, #1e3a5f, #1a5276);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.createBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+}
+
+.createBtnLarge {
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #1e3a5f, #1a5276);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.createBtnLarge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(30, 58, 95, 0.3);
+}
+
+/* Results Count */
+.resultsCount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.resultsSub {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* Table */
+.tableCard {
+  background: white;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.thCheckbox,
+.thProject,
+.thOrg,
+.thBudget,
+.thScore,
+.thSentTo,
+.thDate,
+.thActions {
+  padding: 14px 16px;
+  font-weight: 600;
+  color: #374151;
+  text-align: left;
+}
+
+.thCheckbox {
+  width: 40px;
+  padding: 14px 8px;
+  text-align: center;
+}
+
+.thActions {
+  text-align: center;
+}
+
+.tableRow {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.15s;
+}
+
+.tableRow:hover {
+  background: #fafafa;
+}
+
+.tdCheckbox {
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.tdProject {
+  padding: 12px 16px;
+}
+
+.tdOrg {
+  padding: 12px 16px;
+}
+
+.tdBudget {
+  padding: 12px 16px;
+}
+
+.tdSentTo {
+  padding: 12px 16px;
+}
+
+.tdDate {
+  padding: 12px 16px;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #1e3a5f;
+  cursor: pointer;
+}
+
+.projectInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.projectIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.projectName {
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+.projectDesc {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 1px;
+}
+
+.orgInfo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b7280;
+}
+
+.budgetAmount {
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+.scoreCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scoreNumber {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.scoreStars {
+  display: flex;
+  gap: 1px;
+  font-size: 12px;
+}
+
+.noScore {
+  color: #d1d5db;
+}
+
+.dateInfo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.sentToContainer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sentToIcon {
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.emailChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.sentToChip {
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  color: #1e3a5f;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sentToMore {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.actionBtns {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.actionBtn {
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.viewBtn {
+  color: #3b82f6;
+  background: #eff6ff;
+}
+
+.viewBtn:hover {
+  background: #dbeafe;
+}
+
+.deleteBtn {
+  color: #ef4444;
+  background: #fef2f2;
+}
+
+.deleteBtn:hover {
+  background: #fee2e2;
+}
+
+/* Loading & Empty States */
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+}
+
+/* Modals */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: white;
+  border-radius: 20px;
+  max-width: 640px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.deleteModal {
+  max-width: 400px;
+  text-align: center;
+  padding: 32px;
+}
+
+.modalGradientHeader {
+  background: linear-gradient(135deg, #0d2844, #1a5276);
+  border-radius: 20px 20px 0 0;
+  padding: 24px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.modalHeaderContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.modalIconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalHeaderText {
+  flex: 1;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.modalSubtitle {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 2px 0 0 0;
+}
+
+.modalClose {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.modalClose:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 30px 30px;
+}
+
+/* Form Elements */
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  align-items: center;
+}
+
+.formLabelIcon {
+  margin-right: 6px;
+}
+
+.fieldHint {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.modalInput {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  background: #fafafa;
+}
+
+.modalInput:focus {
+  border-color: #1e3a5f;
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.1);
+  background: white;
+}
+
+.modalTextarea {
+  min-height: 80px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* Email Section */
+.emailSection {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1.5px solid #e5e7eb;
+}
+
+.emailSectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.emailCount {
+  margin-left: auto;
+  font-size: 12px;
+  color: #6b7280;
+  background: white;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+}
+
+.emailInputWrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.emailInput {
+  flex: 1;
+}
+
+.addEmailBtn {
+  padding: 10px 20px;
+  background: #1e3a5f;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.addEmailBtn:hover {
+  background: #1a5276;
+  transform: translateY(-1px);
+}
+
+.emailError {
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 4px;
+}
+
+.emailChipsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.emailChipItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid #d1d5db;
+  font-size: 13px;
+  color: #1e3a5f;
+  transition: border-color 0.2s;
+}
+
+.emailChipItem:hover {
+  border-color: #9ca3af;
+}
+
+.emailChipText {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.removeEmailBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.removeEmailBtn:hover {
+  color: #dc2626;
+}
+
+.emailHelper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Modal Buttons */
+.modalButtons {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 11px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.cancelBtn:hover {
+  background: #f1f5f9;
+  border-color: #d1d5db;
+}
+
+.submitBtn {
+  flex: 2;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1e3a5f, #1a5276);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+}
+
+.submitting {
+  opacity: 0.7;
+  cursor: not-allowed !important;
+}
+
+.deleteConfirmBtn {
+  flex: 2;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  background: #dc2626;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.deleteConfirmBtn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+/* Delete Modal */
+.deleteModalIcon {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.deleteModalText {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+/* Success Modal */
+.successModal {
+  background: white;
+  border-radius: 24px;
+  max-width: 520px;
+  width: 100%;
+  padding: 40px;
+  animation: slideUp 0.4s ease;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.successIconWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.successIconCircle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.3);
+}
+
+.successTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 8px;
+}
+
+.successSubtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.successEmailSection {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.successEmailHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.successEmailLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+.successEmailList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.successEmailChip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #d1d5db;
+  font-size: 13px;
+  color: #1e3a5f;
+}
+
+.successNotes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.successNote {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #6b7280;
+  padding: 10px 14px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.successButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.successBtn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #1e3a5f, #1a5276);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.successBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(30, 58, 95, 0.3);
+}
+
+.successViewBtn {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+.successViewBtn:hover {
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.3);
+}
+
+/* Spinner */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Animations */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+  
+  .header {
+    padding: 12px 16px;
+  }
+  
+  .logoText {
+    font-size: 18px;
+  }
+  
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .actionsBar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 16px;
+  }
+  
+  .actionsLeft {
+    flex: 1;
+  }
+  
+  .actionsRight {
+    justify-content: stretch;
+  }
+  
+  .actionsRight button {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal {
+    max-width: 100%;
+    margin: 10px;
+  }
+  
+  .modalForm {
+    padding: 16px;
+  }
+  
+  .modalGradientHeader {
+    padding: 16px 20px;
+  }
+  
+  .emailInputWrapper {
+    flex-direction: column;
+  }
+  
+  .addEmailBtn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .successModal {
+    padding: 24px;
+    margin: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerContent {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .headerRight {
+    justify-content: space-between;
+  }
+  
+  .userBadge {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  
+  .logoutBtn {
+    font-size: 12px;
+    padding: 6px 14px;
+  }
+  
+  .statCard {
+    padding: 14px 16px;
+  }
+  
+  .statValue {
+    font-size: 20px;
+  }
+  
+  .searchInput {
+    font-size: 12px;
+    padding: 8px 32px 8px 34px;
+  }
+  
+  .modalTitle {
+    font-size: 18px;
+  }
+  
+  .modalButtons {
+    flex-direction: column;
+  }
+  
+  .cancelBtn,
+  .submitBtn,
+  .deleteConfirmBtn {
+    flex: 1;
+  }
+}
