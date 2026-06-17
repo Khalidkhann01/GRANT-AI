@@ -138,3 +138,33 @@ exports.deleteGrant = async (req, res) => {
     });
   }
 };
+
+// GET PDF for a grant
+exports.getGrantPDF = async (req, res) => {
+  try {
+    const grant = await Grant.findById(req.params.id);
+    if (!grant) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Grant not found" 
+      });
+    }
+
+    if (!grant.pdfData) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "PDF not found for this grant" 
+      });
+    }
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `inline; filename="${grant.projectName}_Grant_Proposal.pdf"`);
+    res.send(grant.pdfData);
+  } catch (err) {
+    console.error('❌ Get PDF error:', err);
+    res.status(500).json({ 
+      success: false, 
+      error: err.message 
+    });
+  }
+};
