@@ -89,6 +89,7 @@ exports.getGrantById = async (req, res) => {
   }
 };
 
+//update grant
 exports.updateGrant = async (req, res) => {
   try {
     const grant = await Grant.findByIdAndUpdate(
@@ -108,6 +109,29 @@ exports.updateGrant = async (req, res) => {
     });
   } catch (err) {
     console.error('❌ Update grant error:', err);
+    res.status(500).json({ 
+      success: false, 
+      error: err.message 
+    });
+  }
+};
+
+// DELETE grant
+exports.deleteGrant = async (req, res) => {
+  try {
+    const grant = await Grant.findByIdAndDelete(req.params.id);
+    if (!grant) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Grant not found" 
+      });
+    }
+    res.json({ 
+      success: true, 
+      message: "Grant deleted successfully" 
+    });
+  } catch (err) {
+    console.error('❌ Delete grant error:', err);
     res.status(500).json({ 
       success: false, 
       error: err.message 
