@@ -47,3 +47,21 @@ exports.createGrant = async (req, res) => {
     });
   }
 };
+
+// GET all grants
+exports.getGrants = async (req, res) => {
+  try {
+    const grants = await Grant.find().sort({ createdAt: -1 });
+    res.json({
+      success: true,
+      count: grants.length,
+      grants: grants.map(sanitizeGrant)
+    });
+  } catch (err) {
+    
+    res.status(500).json({ 
+      success: false, 
+      error: err.message 
+    });
+  }
+};
