@@ -151,6 +151,7 @@ html, body {
   padding-left: 0.75rem;
 }
 
+/* Workflow Card */
 .workflow-card {
   background: #0e1626;
   border: 1px solid var(--border-color);
@@ -167,6 +168,8 @@ html, body {
   margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .status-indicator {
@@ -185,6 +188,102 @@ html, body {
   box-shadow: 0 0 8px var(--accent-green);
 }
 
+/* Workflow Image */
+.workflow-image-container {
+  position: relative;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: #0a0f1d;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+.workflow-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.workflow-image:hover {
+  transform: scale(1.01);
+}
+
+.workflow-image-overlay {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.overlay-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(10, 15, 29, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-green);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+/* Workflow Stats */
+.workflow-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-main);
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
 /* Grid Layouts */
 .pipeline-grid {
   display: grid;
@@ -194,7 +293,7 @@ html, body {
 
 .tech-breakdown-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 
@@ -203,6 +302,13 @@ html, body {
   border: 1px solid rgba(255, 255, 255, 0.03);
   border-radius: 0.75rem;
   padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.pipeline-card:hover, .tech-card:hover {
+  border-color: var(--border-color);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
 }
 
 .pipeline-step {
@@ -232,8 +338,16 @@ h4 {
 p {
   font-size: 0.85rem;
   color: var(--text-muted);
-  line-height: 1.42;
+  line-height: 1.6;
   margin: 0;
+}
+
+p code {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
 }
 
 /* Connected Channels Bar */
@@ -243,7 +357,7 @@ p {
   align-items: center;
   flex-wrap: wrap;
   gap: 2.5rem;
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   padding: 1.5rem;
   background: rgba(255, 255, 255, 0.01);
   border-radius: 0.5rem;
@@ -256,4 +370,142 @@ p {
   gap: 0.5rem;
   font-weight: 600;
   font-size: 0.95rem;
+}
+
+/* ============================================ */
+/* RESPONSIVE DESIGN */
+/* ============================================ */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 2.75rem;
+  }
+  
+  .workflow-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile Landscape */
+@media (max-width: 768px) {
+  .landing-nav {
+    padding: 1rem;
+  }
+  
+  .hero-title {
+    font-size: 2.25rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  .workflow-card {
+    padding: 1.25rem;
+  }
+  
+  .workflow-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .workflow-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .integrations-bar {
+    gap: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .pipeline-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tech-breakdown-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .workflow-image-overlay {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  
+  .overlay-badge {
+    font-size: 0.65rem;
+    padding: 0.3rem 0.75rem;
+  }
+  
+  .section-headline {
+    font-size: 1.5rem;
+  }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+  .landing-nav {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .nav-logo {
+    font-size: 1.1rem;
+  }
+  
+  .btn-nav-signin {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .hero-title {
+    font-size: 1.75rem;
+  }
+  
+  .hero-description {
+    font-size: 0.9rem;
+  }
+  
+  .btn-hero-cta {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .workflow-card {
+    padding: 1rem;
+  }
+  
+  .workflow-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+  
+  .stat-number {
+    font-size: 1.25rem;
+  }
+  
+  .stat-label {
+    font-size: 0.65rem;
+  }
+  
+  .pipeline-card, .tech-card {
+    padding: 1rem;
+  }
+  
+  .integration-item {
+    font-size: 0.8rem;
+  }
+  
+  .section-headline {
+    font-size: 1.25rem;
+  }
 }

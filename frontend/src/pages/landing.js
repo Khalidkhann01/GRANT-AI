@@ -34,16 +34,16 @@ function Landing() {
         </div>
       </header>
 
-      {/* SECTION 1: Orchestration Architecture */}
+      {/* SECTION 1: n8n Workflow Visualization */}
       <section className="architecture-section">
-        <h3 className="section-headline">Orchestration Flow</h3>
+        <h3 className="section-headline">n8n Agent Orchestration Pipeline</h3>
         
         <div className="workflow-card">
           <div className="workflow-header">
             <div>
-              <h3 style={{ margin: 0, fontSize: '1.25rem' }}>Engineered n8n Backend Workflow</h3>
+              <h3 style={{ margin: 0, fontSize: '1.25rem' }}>Visual Workflow Architecture</h3>
               <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                Real-time agent routing layout and execution path
+                Multi-agent routing, parallel processing & automated delivery
               </p>
             </div>
             <div className="status-indicator">
@@ -52,29 +52,37 @@ function Landing() {
             </div>
           </div>
 
-          <div className="pipeline-grid">
-            <div className="pipeline-card">
-              <span className="pipeline-step">Step 01 // Ingest</span>
-              <h4>Payload Normalization</h4>
-              <p>Receives system client parameters, sanitizes incoming structural fields, and safely initializes DB states.</p>
+          {/* Workflow Image */}
+          <div className="workflow-image-container">
+            <img 
+              src="/workflow.png" 
+              alt="n8n Grant Proposal Workflow Architecture" 
+              className="workflow-image"
+            />
+            <div className="workflow-image-overlay">
+              <div className="overlay-badge">
+                <span className="pulse-dot"></span>
+                12 Active Nodes
+              </div>
             </div>
+          </div>
 
-            <div className="pipeline-card">
-              <span className="pipeline-step">Step 02 // Analysis</span>
-              <h4>Parallel Groq LLM Array</h4>
-              <p>Triggers asynchronous parallel context threads evaluation: Project Analyzer, Grant Scorer, and Donor Matcher.</p>
+          <div className="workflow-stats">
+            <div className="stat-item">
+              <span className="stat-number">6</span>
+              <span className="stat-label">AI Agents</span>
             </div>
-
-            <div className="pipeline-card">
-              <span className="pipeline-step">Step 03 // Synthesis</span>
-              <h4>Context-Aware Writing</h4>
-              <p>Flattens multi-node assessment responses into specialized Proposal Writer and Executive Summarizer agents.</p>
+            <div className="stat-item">
+              <span className="stat-number">4</span>
+              <span className="stat-label">Parallel Threads</span>
             </div>
-
-            <div className="pipeline-card">
-              <span className="pipeline-step">Step 04 // Compilation</span>
-              <h4>Binary PDF Compilation</h4>
-              <p>Renders raw generation blocks into styled HTML-to-PDF objects, mapping data structures back to base controllers.</p>
+            <div className="stat-item">
+              <span className="stat-number">3</span>
+              <span className="stat-label">Output Integrations</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">100%</span>
+              <span className="stat-label">Automated</span>
             </div>
           </div>
 
@@ -89,7 +97,38 @@ function Landing() {
         </div>
       </section>
 
-      {/* SECTION 2: Deep-Dive Node.js API Capabilities (New Backend Info Added) */}
+      {/* SECTION 2: Orchestration Flow */}
+      <section className="architecture-section">
+        <h3 className="section-headline">Orchestration Flow</h3>
+        
+        <div className="pipeline-grid">
+          <div className="pipeline-card">
+            <span className="pipeline-step">Step 01 // Ingest</span>
+            <h4>Payload Normalization</h4>
+            <p>Receives system client parameters, sanitizes incoming structural fields, and safely initializes DB states.</p>
+          </div>
+
+          <div className="pipeline-card">
+            <span className="pipeline-step">Step 02 // Analysis</span>
+            <h4>Parallel Groq LLM Array</h4>
+            <p>Triggers asynchronous parallel context threads evaluation: Project Analyzer, Grant Scorer, and Donor Matcher.</p>
+          </div>
+
+          <div className="pipeline-card">
+            <span className="pipeline-step">Step 03 // Synthesis</span>
+            <h4>Context-Aware Writing</h4>
+            <p>Flattens multi-node assessment responses into specialized Proposal Writer and Executive Summarizer agents.</p>
+          </div>
+
+          <div className="pipeline-card">
+            <span className="pipeline-step">Step 04 // Compilation</span>
+            <h4>Binary PDF Compilation</h4>
+            <p>Renders raw generation blocks into styled HTML-to-PDF objects, mapping data structures back to base controllers.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3: Deep-Dive Node.js API Capabilities */}
       <section className="architecture-section">
         <h3 className="section-headline">Robust REST API Implementation</h3>
         
