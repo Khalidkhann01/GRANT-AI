@@ -4,9 +4,9 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { 
   FaArrowLeft, FaDownload, FaPrint, FaCheckCircle, 
-  FaClock, FaAward, FaDollarSign, FaBuilding, FaGlobe, FaCalendar,
+  FaClock, FaDollarSign, FaBuilding, FaGlobe, FaCalendar,
   FaFilePdf, FaEye, FaSpinner, FaChartBar, FaLightbulb,
-  FaHandshake, FaBullseye, FaShieldAlt, FaUsers, FaRocket,
+  FaHandshake, FaBullseye, FaUsers, FaRocket,
   FaStar, FaStarHalfAlt, FaRegStar
 } from 'react-icons/fa';
 import { format } from 'date-fns';
@@ -18,7 +18,6 @@ const GrantDetail = () => {
   const [grant, setGrant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pdfLoading, setPdfLoading] = useState(false);
-  const [htmlLoading, setHtmlLoading] = useState(false);
 
   useEffect(() => {
     loadGrant();
@@ -85,21 +84,6 @@ const GrantDetail = () => {
         }
         setPdfLoading(false);
       });
-  };
-
-  const handleViewHTML = () => {
-    if (!grant?.htmlProposal) {
-      toast.error('No HTML proposal available');
-      return;
-    }
-    
-    setHtmlLoading(true);
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write(grant.htmlProposal);
-    printWindow.document.close();
-    printWindow.focus();
-    setTimeout(() => setHtmlLoading(false), 1000);
-    toast.success('Proposal opened in new window');
   };
 
   const handleDownloadPDF = () => {
@@ -379,7 +363,7 @@ const GrantDetail = () => {
           </div>
         )}
 
-        {/* Proposal Preview */}
+        {/* Proposal Preview - Embedded PDF style like email */}
         {isCompleted && (grant.htmlProposal || grant.pdfData) ? (
           <div className={styles.proposalSection}>
             <div className={styles.sectionHeader}>
@@ -393,11 +377,6 @@ const GrantDetail = () => {
               <button className={styles.downloadProposalBtn} onClick={handleDownloadPDF}>
                 <FaDownload /> Download PDF
               </button>
-              {grant.htmlProposal && (
-                <button className={styles.htmlViewBtn} onClick={handleViewHTML}>
-                  <FaFilePdf /> View HTML
-                </button>
-              )}
             </div>
             {grant.htmlProposal && (
               <div 

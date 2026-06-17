@@ -15,6 +15,7 @@
   --accent-red: #ef4444;
   --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.05);
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 12px;
 }
 
 /* Container */
@@ -248,7 +249,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: var(--radius);
   padding: 18px 20px;
   box-shadow: var(--shadow-glow);
   transition: var(--transition-smooth);
@@ -420,7 +421,7 @@
 
 .donorCard {
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: var(--radius);
   padding: 18px 22px;
   margin-bottom: 14px;
   transition: var(--transition-smooth);
@@ -491,7 +492,7 @@
   gap: 6px;
 }
 
-/* Proposal Section */
+/* Proposal Section - Email style PDF display */
 .proposalSection {
   background: rgba(19, 27, 46, 0.8);
   backdrop-filter: blur(10px);
@@ -554,41 +555,49 @@
   box-shadow: 0 8px 30px rgba(16, 185, 129, 0.2);
 }
 
-.htmlViewBtn {
-  padding: 10px 20px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  transition: var(--transition-smooth);
-}
-
-.htmlViewBtn:hover {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: var(--border-light);
-  transform: translateY(-2px);
-}
-
+/* Proposal Frame - Renders the HTML like the email */
 .proposalFrame {
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: var(--radius);
   overflow: hidden;
   max-height: 800px;
   overflow-y: auto;
-  background: white;
+  background: #ffffff;
+  transition: var(--transition-smooth);
 }
 
-.proposalFrame iframe,
-.proposalFrame object {
-  width: 100%;
-  min-height: 600px;
-  border: none;
+.proposalFrame:hover {
+  border-color: var(--border-light);
+}
+
+/* Ensure the embedded HTML looks like the email */
+.proposalFrame :global(body) {
+  margin: 0;
+  padding: 0;
+  background: #f1f5f9;
+  font-family: Arial, sans-serif;
+}
+
+.proposalFrame :global(.w) {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 28px 16px;
+}
+
+.proposalFrame :global(.hdr) {
+  background: linear-gradient(135deg, #0d2844, #1e3a5f);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.proposalFrame :global(.bar) {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  height: 5px;
+}
+
+.proposalFrame :global(.hin) {
+  padding: 32px 32px 28px;
 }
 
 /* PDF Placeholder */
@@ -596,7 +605,7 @@
   text-align: center;
   padding: 60px 20px;
   border: 2px dashed var(--border-color);
-  border-radius: 12px;
+  border-radius: var(--radius);
   color: var(--text-muted);
 }
 
@@ -666,11 +675,6 @@
   100% { transform: translateX(100%); }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
 /* Scrollbar Styling */
 .proposalFrame::-webkit-scrollbar {
   width: 8px;
@@ -690,7 +694,30 @@
   background: #a0a7ae;
 }
 
-/* Responsive */
+/* ============================================ */
+/* RESPONSIVE DESIGN - All Devices */
+/* ============================================ */
+
+/* Tablet and small laptops */
+@media (max-width: 1024px) {
+  .container {
+    padding: 16px;
+  }
+
+  .content {
+    max-width: 100%;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .breakdownGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile - Landscape & Small Tablets */
 @media (max-width: 768px) {
   .container {
     padding: 12px;
@@ -701,6 +728,7 @@
     align-items: stretch;
     gap: 12px;
     padding: 16px;
+    border-radius: 12px;
   }
 
   .headerRight {
@@ -710,10 +738,18 @@
   .headerRight button {
     flex: 1;
     justify-content: center;
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .backBtn {
+    justify-content: center;
+    font-size: 13px;
+    padding: 8px 14px;
   }
 
   .title {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .titleHeader {
@@ -723,76 +759,24 @@
 
   .statusBadge {
     align-self: flex-start;
+    font-size: 12px;
+    padding: 4px 12px;
   }
 
   .metaGrid {
-    gap: 12px;
+    gap: 10px;
   }
 
   .metaItem {
-    font-size: 13px;
+    font-size: 12px;
+  }
+
+  .metaItem span {
+    word-break: break-all;
   }
 
   .statusSection {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .breakdownGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .breakdownItem {
-    flex-wrap: wrap;
-  }
-
-  .breakdownLabel {
-    min-width: 100%;
-  }
-
-  .donorDetails {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .donorHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .proposalActions {
-    flex-direction: column;
-  }
-
-  .proposalActions button {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .proposalFrame {
-    max-height: 500px;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 8px;
-  }
-
-  .header {
-    padding: 12px;
-  }
-
-  .titleSection {
-    padding: 16px;
-  }
-
-  .title {
-    font-size: 20px;
-  }
-
-  .statusSection {
-    grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
 
@@ -804,11 +788,36 @@
     font-size: 20px;
   }
 
+  .breakdownGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .breakdownItem {
+    flex-wrap: wrap;
+  }
+
+  .breakdownLabel {
+    min-width: 100%;
+    font-size: 11px;
+  }
+
+  .breakdownValue {
+    min-width: 30px;
+    font-size: 12px;
+  }
+
+  .titleSection,
   .breakdownSection,
   .recSection,
   .donorSection,
   .proposalSection {
     padding: 16px;
+    border-radius: 12px;
+  }
+
+  .sectionTitle {
+    font-size: 14px;
   }
 
   .donorCard {
@@ -819,16 +828,308 @@
     font-size: 14px;
   }
 
-  .backBtn,
-  .pdfBtn,
-  .printBtn,
-  .downloadBtn {
-    padding: 8px 14px;
+  .donorHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .donorDetails {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .donorDetails span {
+    font-size: 12px;
+  }
+
+  .proposalActions {
+    flex-direction: column;
+  }
+
+  .proposalActions button {
+    width: 100%;
+    justify-content: center;
     font-size: 13px;
+    padding: 8px 14px;
   }
 
   .proposalFrame {
-    max-height: 400px;
+    max-height: 500px;
+  }
+
+  .recItem {
+    font-size: 13px;
+    padding-left: 24px;
+    padding: 8px 0 8px 24px;
+  }
+
+  .processingMsg {
+    padding: 40px 16px;
+  }
+
+  .processingMsg h3 {
+    font-size: 18px;
+  }
+}
+
+/* Mobile - Portrait (Small Phones) */
+@media (max-width: 480px) {
+  .container {
+    padding: 8px;
+  }
+
+  .header {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .headerRight {
+    gap: 6px;
+  }
+
+  .headerRight button {
+    font-size: 11px;
+    padding: 6px 10px;
+    gap: 4px;
+  }
+
+  .backBtn {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .titleSection {
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  .statusBadge {
+    font-size: 10px;
+    padding: 3px 10px;
+  }
+
+  .metaGrid {
+    gap: 6px;
+  }
+
+  .metaItem {
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  .metaItem span {
+    font-size: 10px;
+  }
+
+  .statusSection {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .statusCard {
+    padding: 10px 12px;
+    border-radius: 8px;
+  }
+
+  .statusLabel {
+    font-size: 9px;
+  }
+
+  .statusValue {
+    font-size: 16px;
+  }
+
+  .statusSub {
+    font-size: 9px;
+  }
+
+  .breakdownSection,
+  .recSection,
+  .donorSection,
+  .proposalSection {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .sectionHeader {
+    gap: 6px;
+  }
+
+  .sectionTitle {
+    font-size: 13px;
+  }
+
+  .breakdownItem {
+    gap: 6px;
+  }
+
+  .breakdownLabel {
+    font-size: 10px;
+    min-width: 60px;
+  }
+
+  .breakdownBarWrapper {
+    height: 6px;
+  }
+
+  .breakdownValue {
+    font-size: 10px;
+    min-width: 25px;
+  }
+
+  .donorCard {
+    padding: 10px 12px;
+    border-radius: 8px;
+  }
+
+  .donorName {
+    font-size: 12px;
+  }
+
+  .donorMatch {
+    font-size: 10px;
+    padding: 2px 10px;
+  }
+
+  .donorReason {
+    font-size: 11px;
+  }
+
+  .donorDetails span {
+    font-size: 10px;
+  }
+
+  .proposalActions button {
+    font-size: 11px;
+    padding: 6px 10px;
+    gap: 4px;
+  }
+
+  .proposalFrame {
+    max-height: 350px;
+    border-radius: 8px;
+  }
+
+  .recItem {
+    font-size: 11px;
+    padding: 6px 0 6px 20px;
+  }
+
+  .recItem::before {
+    font-size: 10px;
+  }
+
+  .pdfPlaceholder {
+    padding: 30px 16px;
+  }
+
+  .pdfPlaceholder h4 {
+    font-size: 14px;
+  }
+
+  .pdfPlaceholder p {
+    font-size: 12px;
+  }
+
+  .processingMsg {
+    padding: 30px 12px;
+  }
+
+  .processingMsg h3 {
+    font-size: 16px;
+  }
+
+  .processingMsg p {
+    font-size: 12px;
+  }
+
+  .processingLoader {
+    max-width: 200px;
+    height: 3px;
+  }
+
+  .loadingContainer p {
+    font-size: 12px;
+  }
+
+  .spinner {
+    width: 24px !important;
+    height: 24px !important;
+  }
+}
+
+/* Extra Small Devices (iPhone SE, etc.) */
+@media (max-width: 380px) {
+  .container {
+    padding: 4px;
+  }
+
+  .header {
+    padding: 8px 10px;
+  }
+
+  .headerRight button {
+    font-size: 9px;
+    padding: 4px 8px;
+  }
+
+  .backBtn {
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+
+  .titleSection {
+    padding: 10px 12px;
+  }
+
+  .statusCard {
+    padding: 8px 10px;
+  }
+
+  .statusValue {
+    font-size: 14px;
+  }
+
+  .breakdownSection,
+  .recSection,
+  .donorSection,
+  .proposalSection {
+    padding: 8px 10px;
+  }
+
+  .proposalFrame {
+    max-height: 280px;
+  }
+
+  .donorCard {
+    padding: 8px 10px;
+  }
+
+  .donorName {
+    font-size: 11px;
+  }
+
+  .donorMatch {
+    font-size: 8px;
+    padding: 2px 8px;
+  }
+
+  .donorReason {
+    font-size: 10px;
+  }
+
+  .recItem {
+    font-size: 10px;
+    padding: 4px 0 4px 16px;
   }
 }
 
@@ -868,5 +1169,19 @@
     max-height: none;
     overflow: visible;
     border: none;
+  }
+
+  .statusCard {
+    border: 1px solid #e5e7eb;
+    background: #fafafa;
+  }
+
+  .statusValue {
+    color: #000 !important;
+  }
+
+  .title {
+    -webkit-text-fill-color: #000 !important;
+    color: #000 !important;
   }
 }
