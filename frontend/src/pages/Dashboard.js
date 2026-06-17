@@ -9,7 +9,7 @@ import {
   FaChevronDown, FaStar, FaStarHalfAlt, FaRegStar,
   FaEnvelope, FaSpinner, FaPaperPlane, FaUserCircle,
   FaInfoCircle, FaGift, FaBullseye, FaGlobe, FaCheck,
-  FaEye
+  FaEye, FaGithub, FaTwitter, FaLinkedin
 } from 'react-icons/fa';
 import { format, formatDistanceToNow } from 'date-fns';
 import styles from './Dashboard.module.css';
@@ -25,6 +25,8 @@ const Dashboard = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [grantToDelete, setGrantToDelete] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isBulkDeleting, setIsBulkDeleting] = useState(false);
   const [emailInput, setEmailInput] = useState('');
   const [emailError, setEmailError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -191,31 +193,44 @@ const Dashboard = () => {
     }
   };
 
-  const handleDelete = (id) => {
-    axios.delete('/api/grants/' + id)
-      .then(() => {
-        toast.success('Grant deleted successfully');
-        setGrantToDelete(null);
-        setShowDeleteModal(false);
-        loadGrants();
-      })
-      .catch(() => {
-        toast.error('Failed to delete grant');
-      });
+  const handleDelete = async (id) => {
+    if (!id) return;
+    
+    setIsDeleting(true);
+    try {
+      await axios.delete('/api/grants/' + id);
+      toast.success('Grant deleted successfully');
+      setGrantToDelete(null);
+      setShowDeleteModal(false);
+      await loadGrants();
+    } catch (err) {
+      toast.error('Failed to delete grant');
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
-  const handleBulkDelete = () => {
-    const deletePromises = selectedGrants.map(id => axios.delete('/api/grants/' + id));
-    Promise.all(deletePromises)
-      .then(() => {
-        toast.success(`${selectedGrants.length} grants deleted successfully`);
-        setSelectedGrants([]);
-        setSelectAll(false);
-        loadGrants();
-      })
-      .catch(() => {
-        toast.error('Failed to delete some grants');
-      });
+  const handleBulkDelete = async () => {
+    if (selectedGrants.length === 0) return;
+    
+    // Show confirmation alert for bulk delete
+    if (!window.confirm(`⚠️ Are you sure you want to delete ${selectedGrants.length} grant${selectedGrants.length > 1 ? 's' : ''}? This action cannot be undone!`)) {
+      return;
+    }
+    
+    setIsBulkDeleting(true);
+    try {
+      const deletePromises = selectedGrants.map(id => axios.delete('/api/grants/' + id));
+      await Promise.all(deletePromises);
+      toast.success(`${selectedGrants.length} grants deleted successfully`);
+      setSelectedGrants([]);
+      setSelectAll(false);
+      await loadGrants();
+    } catch (err) {
+      toast.error('Failed to delete some grants');
+    } finally {
+      setIsBulkDeleting(false);
+    }
   };
 
   const toggleSelect = (id) => {
@@ -236,9 +251,9 @@ const Dashboard = () => {
   };
 
   const getScoreColor = (score) => {
-    if (score >= 80) return '#16a34a';
-    if (score >= 60) return '#d97706';
-    return '#dc2626';
+    if (score >= 80) return '#10b981';
+    if (score >= 60) return '#f97316';
+    return '#ef4444';
   };
 
   const getScoreStars = (score) => {
@@ -251,7 +266,7 @@ const Dashboard = () => {
       } else if (i === fullStars && hasHalf) {
         stars.push(<FaStarHalfAlt key={i} color="#f59e0b" size={12} />);
       } else {
-        stars.push(<FaRegStar key={i} color="#d1d5db" size={12} />);
+        stars.push(<FaRegStar key={i} color="#334155" size={12} />);
       }
     }
     return stars;
@@ -276,22 +291,22 @@ const Dashboard = () => {
           </div>
         </div>
         
-        <h2 className={styles.successTitle}>🎉 Grant Proposal Submitted!</h2>
+        <h2 className={styles.successTitle}>🚀 Grant Proposal Submitted!</h2>
         <p className={styles.successSubtitle}>
           Your proposal for <strong>"{submittedProject}"</strong> has been successfully submitted to AI for processing.
         </p>
         
         <div className={styles.successEmailSection}>
           <div className={styles.successEmailHeader}>
-            <FaEnvelope size={18} color="#1e3a5f" />
+            <FaEnvelope size={18} color="#06b6d4" />
             <span className={styles.successEmailLabel}>📧 Sent to:</span>
           </div>
           <div className={styles.successEmailList}>
             {submittedEmails.map((email, index) => (
               <div key={index} className={styles.successEmailChip}>
-                <FaEnvelope size={12} color="#1e3a5f" />
+                <FaEnvelope size={12} color="#06b6d4" />
                 <span>{email}</span>
-                <FaCheck size={12} color="#16a34a" />
+                <FaCheck size={12} color="#10b981" />
               </div>
             ))}
           </div>
@@ -299,11 +314,11 @@ const Dashboard = () => {
         
         <div className={styles.successNotes}>
           <div className={styles.successNote}>
-            <FaClock size={16} color="#d97706" />
+            <FaClock size={16} color="#f97316" />
             <span>📬 You'll receive the email in <strong>2-5 minutes</strong></span>
           </div>
           <div className={styles.successNote}>
-            <FaSearch size={16} color="#6b7280" />
+            <FaSearch size={16} color="#94a3b8" />
             <span>🔍 Check your <strong>spam folder</strong> if you don't see it</span>
           </div>
         </div>
@@ -324,7 +339,7 @@ const Dashboard = () => {
             className={styles.successBtn}
             onClick={() => setShowSuccessModal(false)}
           >
-            Got it! 👍
+            Got it! ✨
           </button>
         </div>
       </div>
@@ -338,7 +353,7 @@ const Dashboard = () => {
         <div className={styles.headerContent}>
           <div className={styles.logo}>
             <div className={styles.logoIcon}>
-              <FaFileAlt size={24} color="#f59e0b" />
+              <FaFileAlt size={24} color="#10b981" />
             </div>
             <div>
               <span className={styles.logoText}>GrantAI</span>
@@ -363,11 +378,11 @@ const Dashboard = () => {
       {/* Stats */}
       <div className={styles.statsGrid}>
         {[
-          { icon: FaFileAlt, color: '#3b82f6', value: stats.total, label: 'Total Grants', border: '#3b82f6' },
+          { icon: FaFileAlt, color: '#06b6d4', value: stats.total, label: 'Total Grants', border: '#06b6d4' },
           { icon: FaAward, color: '#8b5cf6', value: stats.avgScore || '-', label: 'Avg Score', border: '#8b5cf6' },
-          { icon: FaDollarSign, color: '#f59e0b', value: '$' + (stats.totalBudget || 0).toLocaleString(), label: 'Total Budget', border: '#f59e0b' }
+          { icon: FaDollarSign, color: '#10b981', value: '$' + (stats.totalBudget || 0).toLocaleString(), label: 'Total Budget', border: '#10b981' }
         ].map((stat, index) => (
-          <div key={index} className={styles.statCard} style={{ borderLeft: `4px solid ${stat.border}` }}>
+          <div key={index} className={styles.statCard} style={{ borderLeft: `3px solid ${stat.border}` }}>
             <div className={styles.statIconWrapper} style={{ background: `${stat.color}15` }}>
               <stat.icon color={stat.color} size={22} />
             </div>
@@ -400,9 +415,22 @@ const Dashboard = () => {
         </div>
         <div className={styles.actionsRight}>
           {selectedGrants.length > 0 && (
-            <button className={styles.bulkDeleteBtn} onClick={handleBulkDelete}>
-              <FaTrash size={14} />
-              Delete ({selectedGrants.length})
+            <button 
+              className={styles.bulkDeleteBtn} 
+              onClick={handleBulkDelete}
+              disabled={isBulkDeleting}
+            >
+              {isBulkDeleting ? (
+                <>
+                  <FaSpinner className={styles.spinner} />
+                  Deleting...
+                </>
+              ) : (
+                <>
+                  <FaTrash size={14} />
+                  Delete ({selectedGrants.length})
+                </>
+              )}
             </button>
           )}
           <button
@@ -432,7 +460,7 @@ const Dashboard = () => {
           </div>
         ) : filteredGrants.length === 0 ? (
           <div className={styles.emptyState}>
-            <FaFileAlt size={64} color="#d1d5db" />
+            <FaFileAlt size={64} color="#334155" />
             <h3>No grant applications yet</h3>
             <p>Create your first grant proposal and let AI do the magic</p>
             <button
@@ -476,7 +504,7 @@ const Dashboard = () => {
                       <td className={styles.tdProject}>
                         <div className={styles.projectInfo}>
                           <div className={styles.projectIcon}>
-                            <FaFileAlt size={16} color="#1e3a5f" />
+                            <FaFileAlt size={16} color="#06b6d4" />
                           </div>
                           <div>
                             <div className={styles.projectName}>{grant.projectName}</div>
@@ -488,7 +516,7 @@ const Dashboard = () => {
                       </td>
                       <td className={styles.tdOrg}>
                         <div className={styles.orgInfo}>
-                          <FaBuilding size={14} color="#6b7280" />
+                          <FaBuilding size={14} color="#94a3b8" />
                           <span>{grant.organization || '—'}</span>
                         </div>
                       </td>
@@ -513,7 +541,7 @@ const Dashboard = () => {
                       </td>
                       <td className={styles.tdSentTo}>
                         <div className={styles.sentToContainer}>
-                          <FaEnvelope size={12} color="#6b7280" className={styles.sentToIcon} />
+                          <FaEnvelope size={12} color="#94a3b8" className={styles.sentToIcon} />
                           <div className={styles.emailChips}>
                             {emails.slice(0, 2).map((email, idx) => (
                               <span key={idx} className={styles.sentToChip}>
@@ -530,7 +558,7 @@ const Dashboard = () => {
                       </td>
                       <td className={styles.tdDate}>
                         <div className={styles.dateInfo}>
-                          <FaCalendarAlt size={12} color="#9ca3af" />
+                          <FaCalendarAlt size={12} color="#94a3b8" />
                           <span>{format(new Date(grant.createdAt), 'MMM d, yyyy')}</span>
                         </div>
                       </td>
@@ -545,7 +573,13 @@ const Dashboard = () => {
                           </button>
                           <button
                             className={`${styles.actionBtn} ${styles.deleteBtn}`}
-                            onClick={() => { setGrantToDelete(grant._id); setShowDeleteModal(true); }}
+                            onClick={() => { 
+                              // Show confirmation before opening delete modal
+                              if (window.confirm(`⚠️ Are you sure you want to delete "${grant.projectName}"? This action cannot be undone!`)) {
+                                setGrantToDelete(grant._id);
+                                setShowDeleteModal(true);
+                              }
+                            }}
                             title="Delete"
                           >
                             <FaTrash size={14} />
@@ -577,6 +611,7 @@ const Dashboard = () => {
                 type="button"
                 className={styles.cancelBtn}
                 onClick={() => setShowDeleteModal(false)}
+                disabled={isDeleting}
               >
                 Cancel
               </button>
@@ -584,8 +619,16 @@ const Dashboard = () => {
                 type="button"
                 className={styles.deleteConfirmBtn}
                 onClick={() => handleDelete(grantToDelete)}
+                disabled={isDeleting}
               >
-                Delete
+                {isDeleting ? (
+                  <>
+                    <FaSpinner className={styles.spinner} />
+                    Deleting...
+                  </>
+                ) : (
+                  'Delete'
+                )}
               </button>
             </div>
           </div>
@@ -599,14 +642,14 @@ const Dashboard = () => {
             <div className={styles.modalGradientHeader}>
               <div className={styles.modalHeaderContent}>
                 <div className={styles.modalIconWrapper}>
-                  <FaRocket size={24} color="#f59e0b" />
+                  <FaRocket size={24} color="#10b981" />
                 </div>
                 <div className={styles.modalHeaderText}>
                   <h2 className={styles.modalTitle}>Create New Grant</h2>
                   <p className={styles.modalSubtitle}>AI-powered grant proposal generator</p>
                 </div>
                 <button className={styles.modalClose} onClick={() => setShowModal(false)}>
-                  <FaTimes size={20} color="#94a3b8" />
+                  <FaTimes size={20} color="#64748b" />
                 </button>
               </div>
             </div>
@@ -615,7 +658,7 @@ const Dashboard = () => {
               <div className={styles.formGrid}>
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel}>
-                    <FaFileAlt size={12} color="#1e3a5f" className={styles.formLabelIcon} />
+                    <FaFileAlt size={12} color="#06b6d4" className={styles.formLabelIcon} />
                     Project Name *
                   </label>
                   <input
@@ -630,7 +673,7 @@ const Dashboard = () => {
 
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel}>
-                    <FaDollarSign size={12} color="#1e3a5f" className={styles.formLabelIcon} />
+                    <FaDollarSign size={12} color="#10b981" className={styles.formLabelIcon} />
                     Budget (USD) *
                   </label>
                   <input
@@ -646,7 +689,7 @@ const Dashboard = () => {
 
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>
-                  <FaFileAlt size={12} color="#1e3a5f" className={styles.formLabelIcon} />
+                  <FaFileAlt size={12} color="#06b6d4" className={styles.formLabelIcon} />
                   Project Description *
                 </label>
                 <textarea
@@ -661,7 +704,7 @@ const Dashboard = () => {
               <div className={styles.formGrid}>
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel}>
-                    <FaBuilding size={12} color="#1e3a5f" className={styles.formLabelIcon} />
+                    <FaBuilding size={12} color="#94a3b8" className={styles.formLabelIcon} />
                     Organization Name
                   </label>
                   <input
@@ -676,7 +719,7 @@ const Dashboard = () => {
 
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel}>
-                    <FaGlobe size={12} color="#1e3a5f" className={styles.formLabelIcon} />
+                    <FaGlobe size={12} color="#94a3b8" className={styles.formLabelIcon} />
                     Location
                   </label>
                   <input
@@ -693,7 +736,7 @@ const Dashboard = () => {
               <div className={styles.formGrid}>
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel}>
-                    <FaGift size={12} color="#1e3a5f" className={styles.formLabelIcon} />
+                    <FaGift size={12} color="#94a3b8" className={styles.formLabelIcon} />
                     Donor Type / Sector
                   </label>
                   <input
@@ -707,7 +750,7 @@ const Dashboard = () => {
 
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel}>
-                    <FaClock size={12} color="#1e3a5f" className={styles.formLabelIcon} />
+                    <FaClock size={12} color="#94a3b8" className={styles.formLabelIcon} />
                     Project Duration
                   </label>
                   <input
@@ -722,7 +765,7 @@ const Dashboard = () => {
 
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>
-                  <FaBullseye size={12} color="#1e3a5f" className={styles.formLabelIcon} />
+                  <FaBullseye size={12} color="#94a3b8" className={styles.formLabelIcon} />
                   Project Goals
                 </label>
                 <input
@@ -738,7 +781,7 @@ const Dashboard = () => {
               {/* Email Section */}
               <div className={styles.emailSection}>
                 <div className={styles.emailSectionHeader}>
-                  <FaEnvelope size={16} color="#1e3a5f" />
+                  <FaEnvelope size={16} color="#06b6d4" />
                   <label className={styles.formLabel}>Recipient Emails *</label>
                   <span className={styles.emailCount}>{newGrant.emails.length} recipient{newGrant.emails.length !== 1 ? 's' : ''}</span>
                 </div>
@@ -770,7 +813,7 @@ const Dashboard = () => {
                 <div className={styles.emailChipsContainer}>
                   {newGrant.emails.map((email, index) => (
                     <div key={index} className={styles.emailChipItem}>
-                      <FaEnvelope size={12} color="#1e3a5f" />
+                      <FaEnvelope size={12} color="#06b6d4" />
                       <span className={styles.emailChipText}>{email}</span>
                       <button
                         type="button"
@@ -784,7 +827,7 @@ const Dashboard = () => {
                   ))}
                 </div>
                 <div className={styles.emailHelper}>
-                  <FaInfoCircle size={12} color="#6b7280" />
+                  <FaInfoCircle size={12} color="#64748b" />
                   <span>PDF will be sent to all these email addresses</span>
                 </div>
               </div>
