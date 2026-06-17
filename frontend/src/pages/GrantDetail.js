@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { 
-  FaArrowLeft, FaDownload, FaPrint, FaCheckCircle, 
+  FaArrowLeft, FaDownload, FaCheckCircle, 
   FaClock, FaDollarSign, FaBuilding, FaGlobe, FaCalendar,
   FaFilePdf, FaEye, FaSpinner, FaChartBar, FaLightbulb,
   FaHandshake, FaBullseye, FaUsers, FaRocket,
@@ -135,18 +135,6 @@ const GrantDetail = () => {
     toast.success('Proposal downloaded as HTML');
   };
 
-  const handlePrint = () => {
-    if (!grant?.htmlProposal) {
-      toast.error('No proposal content to print');
-      return;
-    }
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write(grant.htmlProposal);
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-  };
-
   const getScoreColor = (score) => {
     if (score >= 80) return '#10b981';
     if (score >= 60) return '#f97316';
@@ -218,9 +206,6 @@ const GrantDetail = () => {
                 disabled={pdfLoading}
               >
                 <FaDownload /> {pdfLoading ? 'Loading...' : 'Download'}
-              </button>
-              <button className={styles.printBtn} onClick={handlePrint}>
-                <FaPrint /> Print
               </button>
             </>
           )}

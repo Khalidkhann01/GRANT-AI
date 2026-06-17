@@ -119,27 +119,6 @@
   cursor: not-allowed;
 }
 
-.printBtn {
-  padding: 10px 20px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  background: transparent;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-muted);
-  transition: var(--transition-smooth);
-}
-
-.printBtn:hover {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: var(--border-light);
-  transform: translateY(-2px);
-}
-
 .downloadBtn {
   padding: 10px 20px;
   border: none;
