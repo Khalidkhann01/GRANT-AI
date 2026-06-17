@@ -492,7 +492,7 @@
   gap: 6px;
 }
 
-/* Proposal Section - Email style PDF display */
+/* Proposal Section */
 .proposalSection {
   background: rgba(19, 27, 46, 0.8);
   backdrop-filter: blur(10px);
@@ -555,68 +555,53 @@
   box-shadow: 0 8px 30px rgba(16, 185, 129, 0.2);
 }
 
-/* Proposal Frame - Renders the HTML like the email */
-.proposalFrame {
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius);
-  overflow: hidden;
-  max-height: 800px;
-  overflow-y: auto;
-  background: #ffffff;
-  transition: var(--transition-smooth);
-}
-
-.proposalFrame:hover {
-  border-color: var(--border-light);
-}
-
-/* Ensure the embedded HTML looks like the email */
-.proposalFrame :global(body) {
-  margin: 0;
-  padding: 0;
-  background: #f1f5f9;
-  font-family: Arial, sans-serif;
-}
-
-.proposalFrame :global(.w) {
-  max-width: 620px;
-  margin: 0 auto;
-  padding: 28px 16px;
-}
-
-.proposalFrame :global(.hdr) {
-  background: linear-gradient(135deg, #0d2844, #1e3a5f);
-  border-radius: 14px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.proposalFrame :global(.bar) {
-  background: linear-gradient(90deg, #f59e0b, #fbbf24);
-  height: 5px;
-}
-
-.proposalFrame :global(.hin) {
-  padding: 32px 32px 28px;
-}
-
-/* PDF Placeholder */
-.pdfPlaceholder {
+/* Proposal Placeholder */
+.proposalPlaceholder {
   text-align: center;
   padding: 60px 20px;
   border: 2px dashed var(--border-color);
   border-radius: var(--radius);
   color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.02);
 }
 
-.pdfPlaceholder h4 {
+.proposalPlaceholder h4 {
   color: var(--text-main);
   margin: 16px 0 8px 0;
+  font-size: 20px;
 }
 
-.pdfPlaceholder p {
+.proposalPlaceholder p {
   margin-top: 8px;
   font-size: 14px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.proposalPlaceholder p strong {
+  color: var(--text-main);
+}
+
+.proposalIcon {
+  margin-bottom: 16px;
+}
+
+.proposalStats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.proposalStats span {
+  background: var(--bg-card);
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
 }
 
 /* Processing Message */
@@ -673,25 +658,6 @@
   0% { transform: translateX(-100%); }
   50% { transform: translateX(0%); }
   100% { transform: translateX(100%); }
-}
-
-/* Scrollbar Styling */
-.proposalFrame::-webkit-scrollbar {
-  width: 8px;
-}
-
-.proposalFrame::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 4px;
-}
-
-.proposalFrame::-webkit-scrollbar-thumb {
-  background: #c1c7cd;
-  border-radius: 4px;
-}
-
-.proposalFrame::-webkit-scrollbar-thumb:hover {
-  background: #a0a7ae;
 }
 
 /* ============================================ */
@@ -854,8 +820,14 @@
     padding: 8px 14px;
   }
 
-  .proposalFrame {
-    max-height: 500px;
+  .proposalPlaceholder {
+    padding: 40px 16px;
+  }
+
+  .proposalStats {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
   }
 
   .recItem {
@@ -1010,9 +982,21 @@
     gap: 4px;
   }
 
-  .proposalFrame {
-    max-height: 350px;
-    border-radius: 8px;
+  .proposalPlaceholder {
+    padding: 30px 16px;
+  }
+
+  .proposalPlaceholder h4 {
+    font-size: 16px;
+  }
+
+  .proposalPlaceholder p {
+    font-size: 12px;
+  }
+
+  .proposalStats span {
+    font-size: 10px;
+    padding: 4px 12px;
   }
 
   .recItem {
@@ -1022,18 +1006,6 @@
 
   .recItem::before {
     font-size: 10px;
-  }
-
-  .pdfPlaceholder {
-    padding: 30px 16px;
-  }
-
-  .pdfPlaceholder h4 {
-    font-size: 14px;
-  }
-
-  .pdfPlaceholder p {
-    font-size: 12px;
   }
 
   .processingMsg {
@@ -1106,8 +1078,8 @@
     padding: 8px 10px;
   }
 
-  .proposalFrame {
-    max-height: 280px;
+  .proposalPlaceholder {
+    padding: 20px 12px;
   }
 
   .donorCard {
@@ -1165,10 +1137,9 @@
     display: none !important;
   }
 
-  .proposalFrame {
-    max-height: none;
-    overflow: visible;
-    border: none;
+  .proposalPlaceholder {
+    border: 1px solid #e5e7eb;
+    background: #fafafa;
   }
 
   .statusCard {

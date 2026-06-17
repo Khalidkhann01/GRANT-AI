@@ -363,7 +363,7 @@ const GrantDetail = () => {
           </div>
         )}
 
-        {/* Proposal Preview - Embedded PDF style like email */}
+        {/* Proposal Section */}
         {isCompleted && (grant.htmlProposal || grant.pdfData) ? (
           <div className={styles.proposalSection}>
             <div className={styles.sectionHeader}>
@@ -378,19 +378,18 @@ const GrantDetail = () => {
                 <FaDownload /> Download PDF
               </button>
             </div>
-            {grant.htmlProposal && (
-              <div 
-                className={styles.proposalFrame}
-                dangerouslySetInnerHTML={{ __html: grant.htmlProposal }}
-              />
-            )}
-            {!grant.htmlProposal && grant.pdfData && (
-              <div className={styles.pdfPlaceholder}>
-                <FaFilePdf size={64} color="#334155" />
-                <h4>PDF is Available</h4>
-                <p>Click "View PDF" to open the complete grant proposal.</p>
+            <div className={styles.proposalPlaceholder}>
+              <div className={styles.proposalIcon}>
+                <FaFilePdf size={48} color="#ef4444" />
               </div>
-            )}
+              <h4>Proposal Ready</h4>
+              <p>Click <strong>"View PDF"</strong> to open the complete grant proposal, or <strong>"Download PDF"</strong> to save it.</p>
+              <div className={styles.proposalStats}>
+                <span>📄 {grant.htmlProposal?.length || 0} characters</span>
+                <span>📊 Score: {score}/100</span>
+                <span>🏆 Grade: {grade}</span>
+              </div>
+            </div>
           </div>
         ) : (
           <div className={styles.processingMsg}>
