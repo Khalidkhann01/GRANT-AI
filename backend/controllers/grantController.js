@@ -1,5 +1,5 @@
 const Grant = require("../models/Grant");
-
+const triggerN8N = require("../services/n8nServices.js");
 
 exports.createGrant = async (req, res) => {
   try {
@@ -161,7 +161,84 @@ exports.getGrantPDF = async (req, res) => {
     res.setHeader('Content-Disposition', `inline; filename="${grant.projectName}_Grant_Proposal.pdf"`);
     res.send(grant.pdfData);
   } catch (err) {
-    console.error('❌ Get PDF error:', err);
+    console.error(' Get PDF error:', err);
+    res.status(500).json({ 
+      success: false, 
+      error: err.message 
+    });
+  }
+};
+
+
+//  Webhook for n8n to update grant
+exports.updateGrantFromWebhook = async (req, res) => {
+  try {
+    
+    
+    const { grantId, pdfData, pdfBase64, ...updateData } = req.body;
+    
+    if (!grantId) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "grantId is required" 
+      });
+    }
+
+    const grant = await Grant.findById(grantId);
+    if (!grant) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Grant not found" 
+      });
+    }
+
+
+    //  Handle PDF data - supports multiple formats
+    if (pdfData) {
+      // If pdfData is a Buffer or base64 string
+      if (Buffer.isBuffer(pdfData)) {
+        grant.pdfData = pdfData;
+      } else if (typeof pdfData === 'string') {
+        // If it's a base64 string
+        grant.pdfData = Buffer.from(pdfData, 'base64');
+      } else if (pdfData.data) {
+        // If it's an object with data property (from some APIs)
+        grant.pdfData = Buffer.from(pdfData.data);
+      }
+    } else if (pdfBase64) {
+      // Alternative: pdfBase64 field
+      grant.pdfData = Buffer.from(pdfBase64, 'base64');
+    }
+
+    //  Update all other fields
+    const fieldsToUpdate = [
+      'proposal', 'htmlProposal', 'score', 'grade', 'fundability',
+      'donor_matches', 'score_breakdown', 'recommendations',
+      'top_selling_points', 'executive_summary', 'donor_pitch',
+      'elevator_pitch', 'funding_recommendation', 'sdgs',
+      'beneficiaries', 'risk_level'
+    ];
+
+    let updatedCount = 0;
+    fieldsToUpdate.forEach(field => {
+      if (updateData[field] !== undefined && updateData[field] !== null) {
+        grant[field] = updateData[field];
+        updatedCount++;
+      }
+    });
+
+    grant.status = "completed";
+    await grant.save();
+
+    
+    
+    res.json({
+      success: true,
+      message: "Grant updated successfully",
+      grant: sanitizeGrant(grant)
+    });
+  } catch (err) {
+    console.error(' Webhook error:', err);
     res.status(500).json({ 
       success: false, 
       error: err.message 
