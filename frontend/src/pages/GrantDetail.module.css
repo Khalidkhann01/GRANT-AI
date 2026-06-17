@@ -1,0 +1,690 @@
+/* Container */
+.container {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 18px;
+  color: #6b7280;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.backBtn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e3a5f;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s;
+}
+
+.backBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.headerRight {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.pdfBtn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #dc2626;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.pdfBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.pdfBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.printBtn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #f3f4f6;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  transition: all 0.2s;
+}
+
+.printBtn:hover {
+  background: #e5e7eb;
+  transform: translateY(-2px);
+}
+
+.downloadBtn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1e3a5f, #1a5276);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.2s;
+}
+
+.downloadBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+}
+
+.downloadBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Content */
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Title Section */
+.titleSection {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin: 0 0 16px 0;
+}
+
+.metaGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* Status Section */
+.statusSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.statusCard {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.statusLabel {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.statusValue {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusCompleted {
+  color: #16a34a;
+}
+
+.statusProcessing {
+  color: #d97706;
+}
+
+/* Breakdown Section */
+.breakdownSection {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin: 0 0 16px 0;
+}
+
+.breakdownGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.breakdownItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.breakdownLabel {
+  font-size: 12px;
+  color: #374151;
+  min-width: 80px;
+  font-weight: 500;
+}
+
+.breakdownBarWrapper {
+  flex: 1;
+  background: #e5e7eb;
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.breakdownBar {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.breakdownValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e3a5f;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Donor Section */
+.donorSection {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.donorCard {
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 14px;
+  transition: all 0.2s;
+}
+
+.donorCard:hover {
+  border-color: #94a3b8;
+  transform: translateX(4px);
+}
+
+.donorCardTop {
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+
+.donorCardTop:hover {
+  border-color: #4ade80;
+}
+
+.donorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.donorName {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e3a5f;
+}
+
+.donorMatch {
+  color: white;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: #1e3a5f;
+}
+
+.donorCardTop .donorMatch {
+  background: #16a34a;
+}
+
+.donorReason {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.donorDetails {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  color: #374151;
+}
+
+/* Recommendations Section */
+.recSection {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.recList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recItem {
+  padding: 10px 0;
+  border-bottom: 1px dashed #e5e7eb;
+  font-size: 14px;
+  color: #374151;
+  padding-left: 24px;
+  position: relative;
+}
+
+.recItem::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #1e3a5f;
+  font-weight: 700;
+}
+
+.recItem:last-child {
+  border-bottom: none;
+}
+
+/* Proposal Section */
+.proposalSection {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.proposalActions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.viewProposalBtn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #dc2626;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.viewProposalBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.downloadProposalBtn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1e3a5f, #1a5276);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.downloadProposalBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+}
+
+.proposalFrame {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  max-height: 800px;
+  overflow-y: auto;
+}
+
+.proposalFrame iframe,
+.proposalFrame object {
+  width: 100%;
+  min-height: 600px;
+  border: none;
+}
+
+/* PDF Placeholder */
+.pdfPlaceholder {
+  text-align: center;
+  padding: 60px 20px;
+  border: 2px dashed #e5e7eb;
+  border-radius: 12px;
+  color: #6b7280;
+}
+
+.pdfPlaceholder p {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+/* Processing Message */
+.processingMsg {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.processingMsg h3 {
+  color: #1e3a5f;
+  margin: 16px 0 8px 0;
+}
+
+.processingMsg p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .headerRight {
+    justify-content: stretch;
+  }
+
+  .headerRight button {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .metaGrid {
+    gap: 12px;
+  }
+
+  .metaItem {
+    font-size: 13px;
+  }
+
+  .statusSection {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .breakdownGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .breakdownItem {
+    flex-wrap: wrap;
+  }
+
+  .breakdownLabel {
+    min-width: 100%;
+  }
+
+  .donorDetails {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .donorHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .proposalActions {
+    flex-direction: column;
+  }
+
+  .proposalActions button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .proposalFrame {
+    max-height: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 8px;
+  }
+
+  .titleSection {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .statusSection {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .statusCard {
+    padding: 12px 16px;
+  }
+
+  .statusValue {
+    font-size: 16px;
+  }
+
+  .breakdownSection,
+  .donorSection,
+  .recSection,
+  .proposalSection {
+    padding: 16px;
+  }
+
+  .donorCard {
+    padding: 14px 16px;
+  }
+
+  .donorName {
+    font-size: 14px;
+  }
+
+  .backBtn,
+  .pdfBtn,
+  .printBtn,
+  .downloadBtn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .proposalFrame {
+    max-height: 400px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .container {
+    background: white;
+    padding: 0;
+  }
+
+  .header {
+    display: none !important;
+  }
+
+  .content {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .titleSection,
+  .statusSection,
+  .breakdownSection,
+  .donorSection,
+  .recSection,
+  .proposalSection {
+    box-shadow: none;
+    border: 1px solid #e5e7eb;
+    page-break-inside: avoid;
+  }
+
+  .proposalActions {
+    display: none !important;
+  }
+
+  .proposalFrame {
+    max-height: none;
+    overflow: visible;
+    border: none;
+  }
+}
+
+/* Animation for loading state */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Smooth scroll for proposal frame */
+.proposalFrame::-webkit-scrollbar {
+  width: 8px;
+}
+
+.proposalFrame::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.proposalFrame::-webkit-scrollbar-thumb {
+  background: #c1c7cd;
+  border-radius: 4px;
+}
+
+.proposalFrame::-webkit-scrollbar-thumb:hover {
+  background: #a0a7ae;
+}
+
+/* Status card icon spacing */
+.statusValue svg {
+  flex-shrink: 0;
+}
+
+/* Donor match badge animation */
+.donorMatch {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
