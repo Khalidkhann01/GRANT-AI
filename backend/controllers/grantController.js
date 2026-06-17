@@ -88,3 +88,29 @@ exports.getGrantById = async (req, res) => {
     });
   }
 };
+
+exports.updateGrant = async (req, res) => {
+  try {
+    const grant = await Grant.findByIdAndUpdate(
+      req.params.id,
+      { ...req.body, status: "completed" },
+      { new: true, runValidators: true }
+    );
+    if (!grant) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Grant not found" 
+      });
+    }
+    res.json({ 
+      success: true, 
+      grant: sanitizeGrant(grant) 
+    });
+  } catch (err) {
+    console.error('❌ Update grant error:', err);
+    res.status(500).json({ 
+      success: false, 
+      error: err.message 
+    });
+  }
+};
