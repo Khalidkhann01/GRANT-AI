@@ -5,7 +5,9 @@ import axios from 'axios';
 import { 
   FaArrowLeft, FaDownload, FaPrint, FaCheckCircle, 
   FaClock, FaAward, FaDollarSign, FaBuilding, FaGlobe, FaCalendar,
-  FaFilePdf, FaEye
+  FaFilePdf, FaEye, FaSpinner, FaChartBar, FaLightbulb,
+  FaHandshake, FaBullseye, FaShieldAlt, FaUsers, FaRocket,
+  FaStar, FaStarHalfAlt, FaRegStar
 } from 'react-icons/fa';
 import { format } from 'date-fns';
 import styles from './GrantDetail.module.css';
@@ -16,6 +18,7 @@ const GrantDetail = () => {
   const [grant, setGrant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [htmlLoading, setHtmlLoading] = useState(false);
 
   useEffect(() => {
     loadGrant();
@@ -84,6 +87,21 @@ const GrantDetail = () => {
       });
   };
 
+  const handleViewHTML = () => {
+    if (!grant?.htmlProposal) {
+      toast.error('No HTML proposal available');
+      return;
+    }
+    
+    setHtmlLoading(true);
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(grant.htmlProposal);
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => setHtmlLoading(false), 1000);
+    toast.success('Proposal opened in new window');
+  };
+
   const handleDownloadPDF = () => {
     if (!grant?.pdfData && !grant?.htmlProposal) {
       toast.error('No PDF or proposal content available');
@@ -145,21 +163,59 @@ const GrantDetail = () => {
     printWindow.print();
   };
 
+  const getScoreColor = (score) => {
+    if (score >= 80) return '#10b981';
+    if (score >= 60) return '#f97316';
+    return '#ef4444';
+  };
+
+  const getScoreGrade = (score) => {
+    if (score >= 90) return 'A';
+    if (score >= 80) return 'B';
+    if (score >= 70) return 'C';
+    if (score >= 60) return 'D';
+    return 'F';
+  };
+
+  const getScoreStars = (score) => {
+    const stars = [];
+    const fullStars = Math.floor(score / 20);
+    const hasHalf = score % 20 >= 10;
+    for (let i = 0; i < 5; i++) {
+      if (i < fullStars) {
+        stars.push(<FaStar key={i} color="#f59e0b" size={14} />);
+      } else if (i === fullStars && hasHalf) {
+        stars.push(<FaStarHalfAlt key={i} color="#f59e0b" size={14} />);
+      } else {
+        stars.push(<FaRegStar key={i} color="#334155" size={14} />);
+      }
+    }
+    return stars;
+  };
+
   if (loading) {
-    return <div className={styles.loading}>Loading...</div>;
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.spinner} />
+        <p>Loading grant details...</p>
+      </div>
+    );
   }
 
   if (!grant) {
-    return <div className={styles.loading}>Grant not found</div>;
+    return <div className={styles.loadingContainer}>Grant not found</div>;
   }
 
   const isCompleted = grant.status === 'completed';
+  const score = grant.score || 0;
+  const grade = grant.grade || getScoreGrade(score);
 
   return (
     <div className={styles.container}>
+      {/* Header */}
       <div className={styles.header}>
         <button className={styles.backBtn} onClick={() => navigate('/dashboard')}>
-          <FaArrowLeft /> Back
+          <FaArrowLeft /> Back to Dashboard
         </button>
         <div className={styles.headerRight}>
           {isCompleted && (
@@ -169,7 +225,8 @@ const GrantDetail = () => {
                 onClick={handleViewPDF} 
                 disabled={pdfLoading}
               >
-                {pdfLoading ? 'Loading...' : <><FaEye /> View PDF</>}
+                {pdfLoading ? <FaSpinner className={styles.spinner} /> : <FaEye />}
+                {pdfLoading ? 'Loading...' : 'View PDF'}
               </button>
               <button 
                 className={styles.downloadBtn} 
@@ -187,59 +244,79 @@ const GrantDetail = () => {
       </div>
 
       <div className={styles.content}>
+        {/* Title Section */}
         <div className={styles.titleSection}>
-          <h1 className={styles.title}>{grant.projectName}</h1>
+          <div className={styles.titleHeader}>
+            <h1 className={styles.title}>{grant.projectName}</h1>
+            <div className={styles.statusBadge}>
+              {grant.status === 'completed' ? (
+                <><FaCheckCircle color="#10b981" /> Completed</>
+              ) : (
+                <><FaClock color="#f97316" /> Processing</>
+              )}
+            </div>
+          </div>
           <div className={styles.metaGrid}>
             <div className={styles.metaItem}>
-              <FaBuilding size={14} color="#6b7280" />
+              <FaBuilding size={14} color="#64748b" />
               <span>{grant.organization || 'N/A'}</span>
             </div>
             <div className={styles.metaItem}>
-              <FaGlobe size={14} color="#6b7280" />
+              <FaGlobe size={14} color="#64748b" />
               <span>{grant.location || 'N/A'}</span>
             </div>
             <div className={styles.metaItem}>
-              <FaCalendar size={14} color="#6b7280" />
+              <FaCalendar size={14} color="#64748b" />
               <span>{format(new Date(grant.createdAt), 'PPP')}</span>
             </div>
             <div className={styles.metaItem}>
-              <FaDollarSign size={14} color="#6b7280" />
+              <FaDollarSign size={14} color="#64748b" />
               <span>${Number(grant.budget || 0).toLocaleString()}</span>
             </div>
           </div>
         </div>
 
+        {/* Status Cards */}
         <div className={styles.statusSection}>
           <div className={styles.statusCard}>
-            <div className={styles.statusLabel}>Status</div>
-            <div className={`${styles.statusValue} ${grant.status === 'completed' ? styles.statusCompleted : styles.statusProcessing}`}>
-              {grant.status === 'completed' ? <FaCheckCircle /> : <FaClock />}
-              {grant.status}
+            <div className={styles.statusLabel}>AI Score</div>
+            <div className={styles.statusValue} style={{ color: getScoreColor(score) }}>
+              {score}/100
+            </div>
+            <div className={styles.statusSub}>
+              {getScoreStars(score)}
             </div>
           </div>
-          {grant.score && (
-            <div className={styles.statusCard}>
-              <div className={styles.statusLabel}>Score</div>
-              <div className={styles.statusValue}>{grant.score}/100</div>
+          <div className={styles.statusCard}>
+            <div className={styles.statusLabel}>Grade</div>
+            <div className={styles.statusValue} style={{ color: getScoreColor(score) }}>
+              {grade}
             </div>
-          )}
-          {grant.grade && (
-            <div className={styles.statusCard}>
-              <div className={styles.statusLabel}>Grade</div>
-              <div className={styles.statusValue}>{grant.grade}</div>
+            <div className={styles.statusSub}>Performance Grade</div>
+          </div>
+          <div className={styles.statusCard}>
+            <div className={styles.statusLabel}>Fundability</div>
+            <div className={styles.statusValue} style={{ color: grant.fundability === 'High' ? '#10b981' : '#f97316' }}>
+              {grant.fundability || 'Medium'}
             </div>
-          )}
-          {grant.fundability && (
-            <div className={styles.statusCard}>
-              <div className={styles.statusLabel}>Fundability</div>
-              <div className={styles.statusValue}>{grant.fundability}</div>
+            <div className={styles.statusSub}>Funding Potential</div>
+          </div>
+          <div className={styles.statusCard}>
+            <div className={styles.statusLabel}>Risk Level</div>
+            <div className={styles.statusValue} style={{ color: grant.risk_level === 'Low' ? '#10b981' : grant.risk_level === 'Medium' ? '#f97316' : '#ef4444' }}>
+              {grant.risk_level || 'Medium'}
             </div>
-          )}
+            <div className={styles.statusSub}>Implementation Risk</div>
+          </div>
         </div>
 
+        {/* Score Breakdown */}
         {isCompleted && grant.score_breakdown && Object.keys(grant.score_breakdown).length > 0 && (
           <div className={styles.breakdownSection}>
-            <h3 className={styles.sectionTitle}>Score Breakdown</h3>
+            <div className={styles.sectionHeader}>
+              <FaChartBar size={18} color="#06b6d4" />
+              <h3 className={styles.sectionTitle}>Score Breakdown</h3>
+            </div>
             <div className={styles.breakdownGrid}>
               {Object.entries(grant.score_breakdown).map(([key, value]) => (
                 <div key={key} className={styles.breakdownItem}>
@@ -251,7 +328,7 @@ const GrantDetail = () => {
                       className={styles.breakdownBar} 
                       style={{
                         width: `${value}%`,
-                        background: value >= 80 ? '#16a34a' : value >= 60 ? '#d97706' : '#dc2626'
+                        background: value >= 80 ? '#10b981' : value >= 60 ? '#f97316' : '#ef4444'
                       }} 
                     />
                   </div>
@@ -262,9 +339,28 @@ const GrantDetail = () => {
           </div>
         )}
 
+        {/* Recommendations */}
+        {isCompleted && grant.recommendations && grant.recommendations.length > 0 && (
+          <div className={styles.recSection}>
+            <div className={styles.sectionHeader}>
+              <FaLightbulb size={18} color="#f59e0b" />
+              <h3 className={styles.sectionTitle}>Key Recommendations</h3>
+            </div>
+            <ul className={styles.recList}>
+              {grant.recommendations.map((rec, i) => (
+                <li key={i} className={styles.recItem}>{rec}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Donor Matches */}
         {isCompleted && grant.donor_matches && grant.donor_matches.length > 0 && (
           <div className={styles.donorSection}>
-            <h3 className={styles.sectionTitle}>Recommended Donors</h3>
+            <div className={styles.sectionHeader}>
+              <FaHandshake size={18} color="#10b981" />
+              <h3 className={styles.sectionTitle}>Recommended Donors</h3>
+            </div>
             {grant.donor_matches.map((donor, i) => (
               <div key={i} className={`${styles.donorCard} ${i === 0 ? styles.donorCardTop : ''}`}>
                 <div className={styles.donorHeader}>
@@ -275,35 +371,33 @@ const GrantDetail = () => {
                 </div>
                 <div className={styles.donorReason}>{donor.reason}</div>
                 <div className={styles.donorDetails}>
-                  <span><strong>Range:</strong> {donor.typical_grant_range}</span>
-                  <span><strong>Success:</strong> {donor.probability_of_success}</span>
+                  <span><FaDollarSign size={12} color="#64748b" /> <strong>Range:</strong> {donor.typical_grant_range}</span>
+                  <span><FaBullseye size={12} color="#64748b" /> <strong>Success:</strong> {donor.probability_of_success}</span>
                 </div>
               </div>
             ))}
           </div>
         )}
 
-        {isCompleted && grant.recommendations && grant.recommendations.length > 0 && (
-          <div className={styles.recSection}>
-            <h3 className={styles.sectionTitle}>Recommendations</h3>
-            <ul className={styles.recList}>
-              {grant.recommendations.map((rec, i) => (
-                <li key={i} className={styles.recItem}>{rec}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
+        {/* Proposal Preview */}
         {isCompleted && (grant.htmlProposal || grant.pdfData) ? (
           <div className={styles.proposalSection}>
-            <h3 className={styles.sectionTitle}>Full Proposal</h3>
+            <div className={styles.sectionHeader}>
+              <FaFilePdf size={18} color="#ef4444" />
+              <h3 className={styles.sectionTitle}>Full Grant Proposal</h3>
+            </div>
             <div className={styles.proposalActions}>
               <button className={styles.viewProposalBtn} onClick={handleViewPDF}>
-                <FaFilePdf /> View PDF
+                <FaEye /> View PDF
               </button>
               <button className={styles.downloadProposalBtn} onClick={handleDownloadPDF}>
                 <FaDownload /> Download PDF
               </button>
+              {grant.htmlProposal && (
+                <button className={styles.htmlViewBtn} onClick={handleViewHTML}>
+                  <FaFilePdf /> View HTML
+                </button>
+              )}
             </div>
             {grant.htmlProposal && (
               <div 
@@ -313,16 +407,20 @@ const GrantDetail = () => {
             )}
             {!grant.htmlProposal && grant.pdfData && (
               <div className={styles.pdfPlaceholder}>
-                <FaFilePdf size={48} color="#dc2626" />
-                <p>PDF is available. Click "View PDF" to open it.</p>
+                <FaFilePdf size={64} color="#334155" />
+                <h4>PDF is Available</h4>
+                <p>Click "View PDF" to open the complete grant proposal.</p>
               </div>
             )}
           </div>
         ) : (
           <div className={styles.processingMsg}>
-            <FaClock size={48} color="#d97706" />
-            <h3>Proposal is being generated</h3>
-            <p>This may take a few moments. Please refresh the page later.</p>
+            <FaRocket size={48} color="#06b6d4" />
+            <h3>Proposal is Being Generated</h3>
+            <p>Our AI is crafting a comprehensive grant proposal. This usually takes 2-3 minutes.</p>
+            <div className={styles.processingLoader}>
+              <div className={styles.processingBar} />
+            </div>
           </div>
         )}
       </div>
