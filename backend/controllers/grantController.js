@@ -1,0 +1,49 @@
+const Grant = require("../models/Grant");
+
+
+exports.createGrant = async (req, res) => {
+  try {
+    // 1. Create grant in database
+    const grant = await Grant.create(req.body);
+    
+    // 2. Send to n8n
+    const n8nResponse = await triggerN8N(grant);
+
+    // 3. Handle n8n response
+    if (n8nResponse && n8nResponse.isPDF && n8nResponse.pdfData) {
+      // Save PDF and all AI data
+      const updatedGrant = await saveGrantWithAIResponse(grant, n8nResponse);
+      
+      return res.status(200).json({
+        success: true,
+        message: "Grant proposal generated successfully",
+        grant: sanitizeGrant(updatedGrant)
+      });
+    } else if (n8nResponse && !n8nResponse.isPDF) {
+      // Save AI data from JSON response
+      const updatedGrant = await saveGrantWithAIResponse(grant, n8nResponse);
+      
+      return res.status(200).json({
+        success: true,
+        message: "Grant proposal generated successfully",
+        grant: sanitizeGrant(updatedGrant)
+      });
+    } else {
+      // No response data, mark as processing
+      grant.status = "processing";
+      await grant.save();
+
+      return res.status(201).json({
+        success: true,
+        message: "Grant submitted to AI brain (n8n)",
+        grant: sanitizeGrant(grant)
+      });
+    }
+  } catch (err) {
+    console.error('❌ Create grant error:', err);
+    res.status(500).json({ 
+      success: false, 
+      error: err.message 
+    });
+  }
+};
