@@ -14,6 +14,18 @@ import {
 import { format, formatDistanceToNow } from 'date-fns';
 import styles from './Dashboard.module.css';
 
+// API Base URL from environment variable
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
+// Create axios instance with base URL
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true
+});
+
 const Dashboard = () => {
   const [grants, setGrants] = useState([]);
   const [filteredGrants, setFilteredGrants] = useState([]);
@@ -58,7 +70,7 @@ const Dashboard = () => {
 
   const loadGrants = async () => {
     try {
-      const res = await axios.get('https://projects-759s.onrender.com/api/grants');
+      const res = await api.get('/grants');
       if (res.data.success) {
         setGrants(res.data.grants);
         setFilteredGrants(res.data.grants);
@@ -77,6 +89,7 @@ const Dashboard = () => {
         });
       }
     } catch (err) {
+      console.error('Error loading grants:', err);
       toast.error('Failed to load grants');
     } finally {
       setLoading(false);
@@ -158,7 +171,7 @@ const Dashboard = () => {
     };
     
     try {
-      const res = await axios.post('https://projects-759s.onrender.com/api/grants/create', payload);
+      const res = await api.post('/grants/create', payload);
       if (res.data.success) {
         const grantId = res.data.grant?._id || res.data.grant?.id;
         setLastCreatedGrantId(grantId);
@@ -190,12 +203,13 @@ const Dashboard = () => {
     
     setIsDeleting(true);
     try {
-      await axios.delete('https://projects-759s.onrender.com/api/grants/' + id);
+      await api.delete(`/grants/${id}`);
       toast.success('Grant deleted successfully');
       setGrantToDelete(null);
       setShowDeleteModal(false);
       await loadGrants();
     } catch (err) {
+      console.error('Delete error:', err);
       toast.error('Failed to delete grant');
     } finally {
       setIsDeleting(false);
@@ -211,13 +225,14 @@ const Dashboard = () => {
     
     setIsBulkDeleting(true);
     try {
-      const deletePromises = selectedGrants.map(id => axios.delete('https://projects-759s.onrender.com/api/grants/' + id));
+      const deletePromises = selectedGrants.map(id => api.delete(`/grants/${id}`));
       await Promise.all(deletePromises);
       toast.success(`${selectedGrants.length} grants deleted successfully`);
       setSelectedGrants([]);
       setSelectAll(false);
       await loadGrants();
     } catch (err) {
+      console.error('Bulk delete error:', err);
       toast.error('Failed to delete some grants');
     } finally {
       setIsBulkDeleting(false);
@@ -545,7 +560,7 @@ const Dashboard = () => {
                         <div className={styles.actionBtns}>
                           <button
                             className={`${styles.actionBtn} ${styles.viewBtn}`}
-                            onClick={() => navigate(`https://projects-759s.onrender.com/grants/${grant._id}`)}
+                            onClick={() => navigate(`/grants/${grant._id}`)}
                             title="View Details"
                           >
                             <FaEye size={14} />
