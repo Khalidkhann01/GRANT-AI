@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';  // Add useCallback
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
@@ -6,7 +6,7 @@ import {
   FaArrowLeft, FaDownload, FaCheckCircle, 
   FaClock, FaDollarSign, FaBuilding, FaGlobe, FaCalendar,
   FaFilePdf, FaEye, FaSpinner, FaChartBar, FaLightbulb,
-  FaHandshake, FaBullseye, FaRocket,  // ✅ Removed FaUsers
+  FaHandshake, FaBullseye, FaRocket,
   FaStar, FaStarHalfAlt, FaRegStar
 } from 'react-icons/fa';
 import { format } from 'date-fns';
@@ -19,7 +19,6 @@ const GrantDetail = () => {
   const [loading, setLoading] = useState(true);
   const [pdfLoading, setPdfLoading] = useState(false);
 
-  // Wrap loadGrant with useCallback
   const loadGrant = useCallback(async () => {
     try {
       const res = await axios.get(`/api/grants/${id}`);
@@ -38,33 +37,11 @@ const GrantDetail = () => {
     } finally {
       setLoading(false);
     }
-  }, [id, navigate]);  // Add dependencies
+  }, [id, navigate]);
 
   useEffect(() => {
     loadGrant();
-  }, [loadGrant]);  // ✅ Fixed: now depends on loadGrant
-
-  // ... rest of the code remains the same;
-
-  const loadGrant = async () => {
-    try {
-      const res = await axios.get(`/api/grants/${id}`);
-      if (res.data.success) {
-        console.log('✅ Grant data loaded:', {
-          hasPdfData: !!res.data.grant.pdfData,
-          hasHtmlProposal: !!res.data.grant.htmlProposal,
-          status: res.data.grant.status,
-          score: res.data.grant.score
-        });
-        setGrant(res.data.grant);
-      }
-    } catch (err) {
-      toast.error('Failed to load grant');
-      navigate('/dashboard');
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [loadGrant]);
 
   const handleViewPDF = () => {
     if (!grant?.pdfData && !grant?.htmlProposal) {
