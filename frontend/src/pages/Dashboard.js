@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { 
-  FaPlus, FaSearch, FaFileAlt, FaTrash, FaCheckCircle, 
-  FaClock, FaAward, FaUsers, FaRocket, FaFilter, FaTimes,
+  FaPlus, FaSearch, FaFileAlt, FaTrash, 
+  FaClock, FaAward, FaRocket, 
   FaDollarSign, FaCalendarAlt, FaBuilding,
-  FaChevronDown, FaStar, FaStarHalfAlt, FaRegStar,
-  FaEnvelope, FaSpinner, FaPaperPlane, FaUserCircle,
+  FaStar, FaStarHalfAlt, FaRegStar,
+  FaEnvelope, FaSpinner, FaPaperPlane, 
   FaInfoCircle, FaGift, FaBullseye, FaGlobe, FaCheck,
-  FaEye, FaGithub, FaTwitter, FaLinkedin
+  FaEye
 } from 'react-icons/fa';
 import { format, formatDistanceToNow } from 'date-fns';
 import styles from './Dashboard.module.css';
@@ -51,13 +51,10 @@ const Dashboard = () => {
   });
 
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const emailInputRef = useRef(null);
-  const formRef = useRef(null);
 
   useEffect(() => {
-    if (!token) navigate('/login');
-  }, [token, navigate]);
+    loadGrants();
+  }, []);
 
   const loadGrants = async () => {
     try {
@@ -85,10 +82,6 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => { 
-    loadGrants(); 
-  }, []);
 
   useEffect(() => {
     let result = grants.slice();
@@ -124,7 +117,6 @@ const Dashboard = () => {
     setNewGrant({ ...newGrant, emails: [...newGrant.emails, emailInput.trim()] });
     setEmailInput('');
     setEmailError('');
-    emailInputRef.current?.focus();
   };
 
   const removeEmail = (emailToRemove) => {
@@ -213,7 +205,6 @@ const Dashboard = () => {
   const handleBulkDelete = async () => {
     if (selectedGrants.length === 0) return;
     
-    // Show confirmation alert for bulk delete
     if (!window.confirm(`⚠️ Are you sure you want to delete ${selectedGrants.length} grant${selectedGrants.length > 1 ? 's' : ''}? This action cannot be undone!`)) {
       return;
     }
@@ -359,18 +350,6 @@ const Dashboard = () => {
               <span className={styles.logoText}>GrantAI</span>
               <span className={styles.logoSub}>Proposal Generator</span>
             </div>
-          </div>
-          <div className={styles.headerRight}>
-            <div className={styles.userBadge}>
-              <FaUserCircle size={18} />
-              <span>Admin</span>
-            </div>
-            <button
-              onClick={() => { localStorage.clear(); navigate('/login'); }}
-              className={styles.logoutBtn}
-            >
-              Logout
-            </button>
           </div>
         </div>
       </header>
@@ -574,7 +553,6 @@ const Dashboard = () => {
                           <button
                             className={`${styles.actionBtn} ${styles.deleteBtn}`}
                             onClick={() => { 
-                              // Show confirmation before opening delete modal
                               if (window.confirm(`⚠️ Are you sure you want to delete "${grant.projectName}"? This action cannot be undone!`)) {
                                 setGrantToDelete(grant._id);
                                 setShowDeleteModal(true);
@@ -654,7 +632,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <form ref={formRef} onSubmit={handleCreateGrant} className={styles.modalForm}>
+            <form className={styles.modalForm}>
               <div className={styles.formGrid}>
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel}>
@@ -788,7 +766,6 @@ const Dashboard = () => {
                 
                 <div className={styles.emailInputWrapper}>
                   <input
-                    ref={emailInputRef}
                     type="text"
                     placeholder="Enter email address"
                     value={emailInput}
@@ -841,7 +818,8 @@ const Dashboard = () => {
                   Cancel
                 </button>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleCreateGrant}
                   className={`${styles.submitBtn} ${isSubmitting ? styles.submitting : ''}`}
                   disabled={isSubmitting}
                 >
@@ -869,5 +847,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
-//
+export default Dashboard;
