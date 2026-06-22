@@ -211,7 +211,7 @@ const Dashboard = () => {
     
     setIsBulkDeleting(true);
     try {
-      const deletePromises = selectedGrants.map(id => axios.delete('/api/grants/' + id));
+      const deletePromises = selectedGrants.map(id => axios.delete('https://projects-759s.onrender.com/api/grants/' + id));
       await Promise.all(deletePromises);
       toast.success(`${selectedGrants.length} grants deleted successfully`);
       setSelectedGrants([]);
@@ -545,7 +545,7 @@ const Dashboard = () => {
                         <div className={styles.actionBtns}>
                           <button
                             className={`${styles.actionBtn} ${styles.viewBtn}`}
-                            onClick={() => navigate(`/grants/${grant._id}`)}
+                            onClick={() => navigate(`https://projects-759s.onrender.com/grants/${grant._id}`)}
                             title="View Details"
                           >
                             <FaEye size={14} />
