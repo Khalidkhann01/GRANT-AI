@@ -10,7 +10,7 @@ function Landing() {
         <div className="nav-logo">
           <span className="logo-icon">⬢</span> GrantAI Core
         </div>
-        <Link to="/login" className="btn-nav-signin">
+        <Link to="/dashboard" className="btn-nav-signin">
           Open App Demo
         </Link>
       </nav>
