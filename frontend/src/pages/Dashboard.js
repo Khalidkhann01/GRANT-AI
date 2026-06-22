@@ -9,7 +9,7 @@ import {
   FaStar, FaStarHalfAlt, FaRegStar,
   FaEnvelope, FaSpinner, FaPaperPlane, 
   FaInfoCircle, FaGift, FaBullseye, FaGlobe, FaCheck,
-  FaEye
+  FaEye, FaTimes
 } from 'react-icons/fa';
 import { format, formatDistanceToNow } from 'date-fns';
 import styles from './Dashboard.module.css';
