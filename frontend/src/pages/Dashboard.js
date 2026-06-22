@@ -190,7 +190,7 @@ const Dashboard = () => {
     
     setIsDeleting(true);
     try {
-      await axios.delete('/api/grants/' + id);
+      await axios.delete('https://projects-759s.onrender.com/api/grants/' + id);
       toast.success('Grant deleted successfully');
       setGrantToDelete(null);
       setShowDeleteModal(false);
