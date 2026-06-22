@@ -58,7 +58,7 @@ const Dashboard = () => {
 
   const loadGrants = async () => {
     try {
-      const res = await axios.get('/api/grants');
+      const res = await axios.get('https://projects-759s.onrender.com/api/grants');
       if (res.data.success) {
         setGrants(res.data.grants);
         setFilteredGrants(res.data.grants);
