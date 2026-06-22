@@ -11,7 +11,8 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "https://projects-3kin.onrender.com",
+  
   credentials: true
 }));
 app.use(express.json({ limit: '50mb' }));
