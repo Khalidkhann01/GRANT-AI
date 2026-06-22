@@ -12,6 +12,18 @@ import {
 import { format } from 'date-fns';
 import styles from './GrantDetail.module.css';
 
+// API Base URL from environment variable
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
+// Create axios instance with base URL
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true
+});
+
 const GrantDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -21,7 +33,8 @@ const GrantDetail = () => {
 
   const loadGrant = useCallback(async () => {
     try {
-      const res = await axios.get(`/api/grants/${id}`);
+      // ✅ Using api.get() - baseURL is already set
+      const res = await api.get(`/grants/${id}`);
       if (res.data.success) {
         console.log('✅ Grant data loaded:', {
           hasPdfData: !!res.data.grant.pdfData,
@@ -30,8 +43,12 @@ const GrantDetail = () => {
           score: res.data.grant.score
         });
         setGrant(res.data.grant);
+      } else {
+        toast.error('Grant not found');
+        navigate('/dashboard');
       }
     } catch (err) {
+      console.error('Error loading grant:', err);
       toast.error('Failed to load grant');
       navigate('/dashboard');
     } finally {
@@ -49,10 +66,13 @@ const GrantDetail = () => {
       return;
     }
     
-    const pdfUrl = `/api/grants/${id}/pdf`;
+    const pdfUrl = `${API_BASE_URL}/grants/${id}/pdf`;
     setPdfLoading(true);
     
-    axios.get(pdfUrl, { responseType: 'blob' })
+    axios.get(pdfUrl, { 
+      responseType: 'blob',
+      headers: { 'Content-Type': 'application/json' }
+    })
       .then((response) => {
         if (response.data.type === 'application/pdf') {
           const url = URL.createObjectURL(response.data);
@@ -72,7 +92,8 @@ const GrantDetail = () => {
         }
         setPdfLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('PDF fetch error:', error);
         if (grant?.htmlProposal) {
           const printWindow = window.open('', '_blank');
           printWindow.document.write(grant.htmlProposal);
@@ -92,10 +113,13 @@ const GrantDetail = () => {
       return;
     }
 
-    const pdfUrl = `/api/grants/${id}/pdf`;
+    const pdfUrl = `${API_BASE_URL}/grants/${id}/pdf`;
     setPdfLoading(true);
     
-    axios.get(pdfUrl, { responseType: 'blob' })
+    axios.get(pdfUrl, { 
+      responseType: 'blob',
+      headers: { 'Content-Type': 'application/json' }
+    })
       .then((response) => {
         if (response.data.type === 'application/pdf') {
           const url = URL.createObjectURL(response.data);
@@ -112,7 +136,8 @@ const GrantDetail = () => {
         }
         setPdfLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Download error:', error);
         handleDownloadHTML();
         setPdfLoading(false);
       });
