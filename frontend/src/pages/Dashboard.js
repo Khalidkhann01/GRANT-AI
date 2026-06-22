@@ -17,7 +17,7 @@ import styles from './Dashboard.module.css';
 // API Base URL from environment variable
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
-// Create axios instance with base URL
+// Create axios instance with base URLs
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
