@@ -11,7 +11,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: "https://projects-3kin.onrender.com",
+  origin: "http://localhost:3000",
   
   credentials: true
 }));
