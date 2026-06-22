@@ -158,7 +158,7 @@ const Dashboard = () => {
     };
     
     try {
-      const res = await axios.post('/api/grants/create', payload);
+      const res = await axios.post('https://projects-759s.onrender.com/api/grants/create', payload);
       if (res.data.success) {
         const grantId = res.data.grant?._id || res.data.grant?.id;
         setLastCreatedGrantId(grantId);
