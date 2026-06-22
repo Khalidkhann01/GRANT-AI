@@ -28,7 +28,7 @@ function Landing() {
           A full-stack application connecting a responsive React client to a robust Express REST API, orchestration engine, and multi-agent n8n routing architectures.
         </p>
         <div className="cta-group">
-          <Link to="/login" className="btn-hero-cta">
+          <Link to="/dashboard" className="btn-hero-cta">
             Launch Live Dashboard
           </Link>
         </div>
